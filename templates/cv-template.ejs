@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV de <%= nombreCompleto %></title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #3498db;
+    }
+    .header h1 {
+      color: #2c3e50;
+      margin-bottom: 5px;
+    }
+    .contact-info {
+      margin: 10px 0;
+    }
+    .section {
+      margin-bottom: 25px;
+    }
+    .section h2 {
+      color: #2c3e50;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+    }
+    .date {
+      color: #7f8c8d;
+      font-style: italic;
+    }
+    .skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .skill-tag {
+      background-color: #e8f4fc;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1><%= nombreCompleto %></h1>
+    <div class="contact-info">
+      <% const contactItems = []; %>
+      <% if (typeof email !== 'undefined' && email) { %>
+        <% contactItems.push(`<span>${email}</span>`); %>
+      <% } %>
+      <% if (typeof telefono !== 'undefined' && telefono) { %>
+        <% contactItems.push(`<span>${telefono}</span>`); %>
+      <% } %>
+      <% if (typeof direccion !== 'undefined' && direccion) { %>
+        <% contactItems.push(`<span>${direccion}</span>`); %>
+      <% } %>
+      <%= contactItems.join(' • ') %>
+    </div>
+    <% const socialLinks = []; %>
+    <% if (typeof linkedin !== 'undefined' && linkedin) { %>
+      <% socialLinks.push(`<a href="${linkedin}" target="_blank">LinkedIn</a>`); %>
+    <% } %>
+    <% if (typeof github !== 'undefined' && github) { %>
+      <% socialLinks.push(`<a href="${github}" target="_blank">GitHub</a>`); %>
+    <% } %>
+    <% if (socialLinks.length > 0) { %>
+      <div><%= socialLinks.join(' | ') %></div>
+    <% } %>
+  </div>
+
+  <% if (typeof resumen !== 'undefined' && resumen) { %>
+    <div class="section">
+      <h2>Perfil Profesional</h2>
+      <p><%= resumen %></p>
+    </div>
+  <% } %>
+
+  <% if (typeof experiencia !== 'undefined' && Array.isArray(experiencia) && experiencia.length > 0) { %>
+    <div class="section">
+      <h2>Experiencia Laboral</h2>
+      <% experiencia.forEach(exp => { %>
+        <% if (exp) { %>
+          <div style="margin-bottom: 15px;">
+            <% if (exp.puesto) { %>
+              <h3 style="margin-bottom: 5px;"><%= exp.puesto %></h3>
+            <% } %>
+            <div style="display: flex; justify-content: space-between;">
+              <% if (exp.empresa) { %>
+                <strong><%= exp.empresa %></strong>
+              <% } %>
+              <% if (exp.fechaInicio) { %>
+                <span class="date">
+                  <%= exp.fechaInicio %> - <%= exp.fechaFin || 'Actualidad' %>
+                </span>
+              <% } %>
+            </div>
+            <% if (exp.descripcion) { %>
+              <p><%= exp.descripcion %></p>
+            <% } %>
+          </div>
+        <% } %>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <% if (typeof educacion !== 'undefined' && Array.isArray(educacion) && educacion.length > 0) { %>
+    <div class="section">
+      <h2>Educación</h2>
+      <% educacion.forEach(edu => { %>
+        <% if (edu) { %>
+          <div style="margin-bottom: 15px;">
+            <% if (edu.titulo) { %>
+              <h3 style="margin-bottom: 5px;"><%= edu.titulo %></h3>
+            <% } %>
+            <div style="display: flex; justify-content: space-between;">
+              <% if (edu.institucion) { %>
+                <strong><%= edu.institucion %></strong>
+              <% } %>
+              <% if (edu.fechaInicio) { %>
+                <span class="date">
+                  <%= edu.fechaInicio %> - <%= edu.fechaFin || 'Actualidad' %>
+                </span>
+              <% } %>
+            </div>
+          </div>
+        <% } %>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <% if (typeof habilidades !== 'undefined' && Array.isArray(habilidades) && habilidades.length > 0) { %>
+    <div class="section">
+      <h2>Habilidades</h2>
+      <div class="skills">
+        <% habilidades.forEach(habilidad => { %>
+          <% if (habilidad) { %>
+            <span class="skill-tag"><%= habilidad %></span>
+          <% } %>
+        <% }) %>
+      </div>
+    </div>
+  <% } %>
+
+  <% if (typeof idiomas !== 'undefined' && Array.isArray(idiomas) && idiomas.length > 0) { %>
+    <div class="section">
+      <h2>Idiomas</h2>
+      <ul>
+        <% idiomas.forEach(idioma => { %>
+          <% if (idioma && idioma.idioma) { %>
+            <li>
+              <strong><%= idioma.idioma %>:</strong>
+              <%= idioma.nivel || '' %>
+            </li>
+          <% } %>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <div class="footer" style="margin-top: 30px; text-align: center; font-size: 0.8em; color: #7f8c8d;">
+    <p>Generado el <%= currentDate %></p>
+  </div>
+</body>
+</html>
